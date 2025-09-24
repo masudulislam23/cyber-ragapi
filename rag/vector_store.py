@@ -21,14 +21,16 @@ from rag.config import (
 logger = logging.getLogger(__name__)
 
 class PerceiverEmbeddingWrapper:
-    def __init__(self, model_path='./model'):
-        self.embedder = PerceiverIOEmbedder(model_path)
+    def __init__(self, model_path: Optional[str] = None):
+        # Resolve model path from env if not provided
+        resolved_model_path = model_path or os.getenv("EMBEDDING_MODEL_PATH", "./model")
+        self.embedder = PerceiverIOEmbedder(resolved_model_path)
     def embed_query(self, text):
         return self.embedder.get_embeddings([text])[0]
     def embed_documents(self, texts):
         return self.embedder.get_embeddings(texts)
 
-embedding_model = PerceiverEmbeddingWrapper('./model')
+embedding_model = PerceiverEmbeddingWrapper()
 
 # Initialize Chroma DB
 CHROMA_PERSIST_DIRECTORY = os.getenv("CHROMA_PERSIST_DIRECTORY", "./chroma_db")

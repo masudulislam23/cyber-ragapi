@@ -1,35 +1,61 @@
-fastapi
-uvicorn
-python-multipart
-langchain
-langchain-openai
-openai
-pytesseract
-pdf2image
-python-docx
-openpyxl
-python-pptx
-moviepy
-Pillow
-chromadb
-tiktoken
-pydantic
-python-dotenv
-ffmpeg-python
-pytube
-openai-whisper
-accelerate
+aiohttp==3.12.15
+beautifulsoup4==4.13.5
+chardet==5.2.0
+
+# Core API
+fastapi==0.117.1
+uvicorn==0.36.0
+python-multipart==0.0.18
+
+# LangChain / Graph
+langchain==0.3.27
+langchain_core==0.3.76
+langchain_openai==0.3.33
+langchain_chroma==0.2.6
+langgraph==0.6.7
+
+# Models / HF
+huggingface_hub==0.34.4
+transformers==4.56.2
+safetensors==0.6.2
+
+# Torch (pin as needed per environment)
 torch
+
+# CV / Media
+numpy==1.26.4
+opencv-python-headless==4.9.0.80
+moviepy==2.2.1
+Pillow==11.3.0
+pymupdf==1.24.10
+pdf2image==1.17.0
+
+# Docs / Tables
+openpyxl==3.1.5
+python-docx==1.1.2
+pytesseract==0.3.13
+
+# Data / Utils
+pandas==2.3.2
+python-dotenv==1.1.1
+pytz==2025.2
+requests==2.32.5
+tiktoken==0.11.0
+sentence-transformers==5.1.1
+serpapi==0.1.5
+aiohttp==3.12.15
+pytube==15.0.0
+
+# Whisper (optional)
+openai-whisper
+
 vllm
-transformers
-serpapi
-scrapfly-sdk
-dotenv
+python-pptx
 google-search-results
-pytz
-brotli
-pymupdf
-frontend
-tools
-langchain_chroma
-bitsandbytes
+scrapfly-sdk
+
+# Note:
+# - Removed pywin32 pin (not required; caused resolution issues)
+# - Set numpy==1.26.4 to satisfy OpenCV compatibility on Python 3.10/3.11
+# - Replaced fitz with pymupdf; replaced docx with python-docx
+# - Normalized package names (requests, scikit-learn -> sentence-transformers already present)

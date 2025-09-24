@@ -742,12 +742,12 @@ async def confirm_profile_update(field_name: str, current_value: Any, new_value:
     # and wait for user confirmation in the chat flow
     
     confirmation_message = f"""
-    I notice you want to update {person_name}'s {field_name}:
-    Current: {current_value or 'Not set'}
-    New: {new_value}{context_message}
+I notice you want to update {person_name}'s {field_name}:
+  Current: {current_value or 'Not set'}
+  New: {new_value}{context_message}
 
-    Would you like me to update this information? (yes/no)
-    """
+Would you like me to update this information? (yes/no)
+"""
     
     print(confirmation_message)
     

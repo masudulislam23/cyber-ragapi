@@ -596,3 +596,66 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 - [VLLM](https://github.com/vllm-project/vllm) for high-performance language model inference
 - [ChromaDB](https://github.com/chroma-core/chroma) for vector storage
 - [Transformers](https://github.com/huggingface/transformers) for model support
+
+## ▶️ Running Guide (Step-by-Step)
+
+Follow these steps to run the Multi-Modal RAG API locally.
+
+1) Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+2) Configure environment variables
+
+- Copy the sample file and fill your values:
+
+```bash
+cp env.sample .env
+```
+
+- Required keys to review in `.env`:
+  - `SERPAPI_KEY` and `SCRAPFLY_KEY` (if you use web search/scraping)
+  - `HOST`, `PORT` (server bind and port)
+  - `UPLOAD_FOLDER`, `PROCESSED_FOLDER`
+  - Optional: `EMBEDDING_MODEL_PATH` (defaults to `./model`) for the embedding model used by `rag/vector_store.py`
+
+3) Start the vLLM server
+
+- Linux/macOS:
+
+```bash
+chmod +x start_vllm.sh
+./start_vllm.sh
+```
+
+- Windows (PowerShell via WSL or Git Bash recommended):
+
+```powershell
+# In Git Bash / WSL
+chmod +x start_vllm.sh && ./start_vllm.sh
+```
+
+Notes:
+- If you see errors like "invalid choice: 'string\r'", convert line endings to Unix style:
+  - `sed -i 's/\r$//' start_vllm.sh`
+- Ensure the model name in `start_vllm.sh` exists and you have GPU drivers if using CUDA.
+
+4) Start the API server
+
+```bash
+python app.py
+```
+
+The API will be available at:
+- Base URL: `http://localhost:8000`
+- Docs: `http://localhost:8000/docs`
+
+### Optional configuration
+
+- Embedding model path
+  - `rag/vector_store.py` reads `EMBEDDING_MODEL_PATH` from the environment. To override:
+    - Linux/macOS: `export EMBEDDING_MODEL_PATH=/path/to/model`
+    - Windows (PowerShell): `$env:EMBEDDING_MODEL_PATH = "D:\\path\\to\\model"`
+
