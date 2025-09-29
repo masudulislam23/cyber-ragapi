@@ -11,8 +11,12 @@ python -m vllm.entrypoints.openai.api_server \
     --served-model-name neuralmagic/pixtral-12b-quantized.w4a16 \
     --max-model-len 8192 \
     --gpu-memory-utilization 0.8 \
-    --trust-remote-code \
-    --enable-log-requests
+    --trust-remote-code
 
-echo "vLLM server started on http://localhost:8002"
-echo "Test the server with: python test_vllm.py"
+# Check if the Python command was successful
+if [ $? -eq 0 ]; then
+    echo "vLLM server started successfully on http://localhost:8002"
+else
+    echo "Failed to start vLLM server"
+    exit 1
+fi
