@@ -4004,7 +4004,6 @@ async def profile_create_update_node(state: AgentState) -> AgentState:
         
         # CRITICAL FIX: Check if the text contains a name in the same sentence as the pronoun
         # If so, the pronoun refers to that name, not the last mentioned profile
-        import re
         name_patterns = [
             r'\b(my\s+)?(friend|colleague|family|supervisor|neighbor|assistant|cousin|brother|sister|mother|father|daughter|son|wife|husband|partner)\s+(named\s+)?([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)',
             r'\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)\s+(is|was|are|were)\s+(my\s+)?(friend|colleague|family|supervisor|neighbor|assistant|cousin|brother|sister|mother|father|daughter|son|wife|husband|partner)',
