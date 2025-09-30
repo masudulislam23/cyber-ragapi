@@ -12,6 +12,7 @@ nohup python -m vllm.entrypoints.openai.api_server \
     --max-model-len 8192 \
     --gpu-memory-utilization 0.8 \
     --trust-remote-code \
+    --chat-template-content-format string \
     > vllm_server.log 2>&1 &
 
 # Get the process ID
