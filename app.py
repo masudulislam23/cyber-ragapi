@@ -3563,7 +3563,7 @@ def validate_and_correct_intent(text: str, current_intent: str, chat_context: st
         r'my\s+(friend|colleague|sister|brother|mother|father|neighbor|supervisor|boss|partner|spouse|husband|wife|assistant)\s+[a-zA-Z]+\s+',
         r'[a-zA-Z]+\'s\s+(phone|number|address|email|age|birthday|job|work|lives|lived)',
         r'[a-zA-Z]+\s+(lives in|works at|studies at|born in|from)',
-        r'[a-zA-Z]+\s+(has|is|was|will|can|does)',
+        r'[A-Z][a-z]+\s+(has|is|was|will|can|does)\s+(a|an|the\s+)?(phone|number|address|email|age|birthday|job|work|house|car|dog|cat|sister|brother|mother|father|friend|colleague)',  # Only match person names with specific personal attributes
         # Additional specific patterns
         r'my\s+(friend|colleague|sister|brother|mother|father|neighbor|supervisor|boss|partner|spouse|husband|wife|assistant)\'s\s+(phone|number|address|email|age|birthday|job|work|lives|lived)',
         r'my\s+(friend|colleague|sister|brother|mother|father|neighbor|supervisor|boss|partner|spouse|husband|wife|assistant)\s+(phone|number|address|email|age|birthday|job|work|lives|lived)',
@@ -3599,6 +3599,21 @@ def validate_and_correct_intent(text: str, current_intent: str, chat_context: st
     
     # Check if this is obviously give_info but was classified as general
     if current_intent == "general":
+        # First check if this is a general knowledge question that should stay general
+        general_knowledge_patterns = [
+            r'what\s+(is|are|was|were)\s+[a-z\s]+(\?)?$',  # "what is linear algebra?"
+            r'how\s+(does|do|did|can|could)\s+[a-z\s]+(\?)?$',  # "how does photosynthesis work?"
+            r'why\s+(is|are|was|were|does|do|did)\s+[a-z\s]+(\?)?$',  # "why is the sky blue?"
+            r'when\s+(is|are|was|were|does|do|did)\s+[a-z\s]+(\?)?$',  # "when is the next eclipse?"
+            r'where\s+(is|are|was|were|does|do|did)\s+[a-z\s]+(\?)?$',  # "where is the capital of France?"
+        ]
+        
+        # If it matches general knowledge patterns, keep it as general
+        for pattern in general_knowledge_patterns:
+            if re.search(pattern, text_lower):
+                logger.info(f"[INTENT VALIDATION] General knowledge pattern '{pattern}' matched - keeping as general")
+                return "general"
+        
         for pattern in obvious_give_info_patterns:
             if re.search(pattern, text_lower):
                 logger.info(f"[INTENT VALIDATION] Pattern '{pattern}' matched - forcing correction to give_info")
