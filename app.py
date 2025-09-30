@@ -1042,8 +1042,6 @@ async def auth_chat(
             })
 
         def str2json(text):
-            import re
-            import json
             match = re.search(r'\{.*\}', text, re.DOTALL)
             if match:
                 json_str = match.group(0)
@@ -1065,7 +1063,6 @@ async def auth_chat(
             response = str2json(str(response_text))
 
         # --- POST-PROCESSING OVERRIDE FOR PASSWORD ---
-        import json
         try:
             resp_json = json.loads(response)
             # Find the last user message
@@ -1978,8 +1975,6 @@ def detect_profiles_fallback(text: str) -> List[Dict[str, str]]:
     """
     Fallback profile detection using regex patterns if LLM fails.
     """
-    import re
-    from datetime import datetime
 
     logger.info(f"Using fallback regex detection for: {text}")
 
@@ -2136,8 +2131,6 @@ def extract_meaningful_info(text: str, name: str, context: str) -> str:
     """
     Extract meaningful information about a person from the text.
     """
-    import re
-    
     # Look for sentences that mention the person
     sentences = re.split(r'[.!?]+', text)
     relevant_info = []
@@ -2179,8 +2172,6 @@ def clean_profile_name(name: str) -> str:
         r"^a\s+(?:friend|colleague|sister|brother|mother|father|neighbor|supervisor|boss|partner|spouse|husband|wife|assistant)\s+",
         r"^an\s+(?:friend|colleague|sister|brother|mother|father|neighbor|supervisor|boss|partner|spouse|husband|wife|assistant)\s+"
     ]
-    
-    import re
     
     # Apply each pattern to clean the name
     clean_name = name.strip()
@@ -3213,8 +3204,6 @@ def replace_user_name_with_my(text: str, user_name: str) -> str:
     original_text = text
     
     # Create patterns to match the user's name in various forms
-    import re
-    
     # Pattern 1: "Harry's" -> "my" (e.g., "Harry's sister" -> "my sister")
     possessive_pattern = rf'\b{re.escape(first_name)}\'s\b'
     text = re.sub(possessive_pattern, 'my', text, flags=re.IGNORECASE)
@@ -5755,7 +5744,6 @@ async def handle_multiple_profile_clarification_node(state: AgentState) -> Agent
                     # Update location and phone if provided in new information
                     if 'lives in' in new_information.lower():
                         # Extract location from new information
-                        import re
                         location_match = re.search(r'lives in ([^,]+)', new_information, re.IGNORECASE)
                         if location_match:
                             existing_profile['location'] = location_match.group(1).strip()
